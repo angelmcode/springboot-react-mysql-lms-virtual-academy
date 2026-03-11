@@ -1,0 +1,45 @@
+# ==========================================
+# MASTER GITIGNORE (Root Level)
+# ==========================================
+
+# --- BACKEND (Spring Boot) ---
+backend/target/
+backend/.mvn/
+backend/build/
+backend/bin/
+backend/out/
+# This ensures specific internal targets stay, but general ones go
+!backend/**/src/main/**/target/
+!backend/**/src/test/**/target/
+
+# IDE files (Java specific)
+backend/.apt_generated
+backend/.classpath
+backend/.factorypath
+backend/.project
+backend/.settings
+backend/.springBeans
+backend/.sts4-cache
+
+# --- FRONTEND (Vite / React) ---
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/out/
+frontend/*.local
+frontend/.env
+frontend/.env*.local
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/pnpm-debug.log*
+
+# --- SHARED / IDEs / SYSTEM ---
+.idea/
+.vscode/
+**/.idea/
+**/.vscode/
+*.iml
+*.iws
+*.ipr
+.DS_Store
+Thumbs.db
