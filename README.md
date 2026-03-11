@@ -49,5 +49,4 @@ Unlike third-party platforms, this LMS gives the platform owner full control. Bu
 VIRTUAL_ACADEMY/
 ├── backend/           # Spring Boot Application
 ├── frontend/          # React + Vite + TS Application
-├── database/          # SQL scripts and DB configuration
-└── README.md
+└── README.md 
