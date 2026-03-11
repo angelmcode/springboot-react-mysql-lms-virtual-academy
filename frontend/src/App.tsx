@@ -19,6 +19,9 @@ export default function App() {
     <div style={{ padding: '40px', fontFamily: 'sans-serif' }}>
       <h1>Virtual Academy</h1>
       <p>Status: <strong>{message}</strong></p>
+      <div className="bg-purple-600 text-white font-bold text-3xl p-10 rounded-2xl shadow-xl text-center mt-10">
+  IT FINALLY WORKS!!!!!!! 🎉
+</div>
     </div>
   );
 }
