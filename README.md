@@ -12,7 +12,7 @@ Unlike third-party platforms, this LMS gives the platform owner full control. Bu
 ## 🛠 Tech Stack
 
 ### Backend (The Engine)
-* **Java 21 & Spring Boot 3**: Core REST API framework.
+* **Java & Spring Boot**: Core REST API framework.
 * **Spring Security**: Robust authentication and Role-Based Access Control (RBAC).
 * **Spring Data JPA**: Hibernate-based ORM for database management.
 * **MySQL**: Relational database for persistent storage.
