@@ -1,6 +1,6 @@
-# LMS: Software Engineer Academy 🎓
+# LMS: Virtual Academy 🎓
 
-A high-performance, full-stack Learning Management System (LMS) designed for independent educators to host, manage, and monetize their own course platforms.
+A high-performance, full-stack Learning Management System (LMS) designed for independent educators to host, manage, and monetize their own courses.
 
 ## 🌟 Project Overview
 Unlike third-party platforms, this LMS gives the platform owner full control. Built with a **Spring Boot** backend and a **React** frontend, it supports a multi-teacher architecture with revenue-sharing capabilities. Whether you are teaching a Java Masterclass or a Mexican Culinary course, the architecture is niche-flexible and ready to scale.
