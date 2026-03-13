@@ -16,7 +16,7 @@ public class securityconfig {
         http
                 .csrf(csrf -> csrf.disable()) // Required for React POST requests later
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/hello").permitAll() // Open this for the test
+                        .requestMatchers("/hello", "/api/auth/register").permitAll() // Open this for the test
                         .anyRequest().authenticated()             // Lock everything else
                 )
                 .httpBasic(Customizer.withDefaults());

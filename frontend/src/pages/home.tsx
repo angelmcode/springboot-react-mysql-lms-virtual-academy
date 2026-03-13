@@ -6,7 +6,7 @@ interface BackendData {
   text: string;
 }
 
-export default function Home() {
+const Home = () => {
   const [message, setMessage] = useState<string>("Loading...");
 
   useEffect(() => {
@@ -31,7 +31,14 @@ export default function Home() {
         >
           Go to Sign Up Page →
         </Link>
+        <Link 
+          to="/login" 
+          className="text-blue-500 hover:text-blue-400 text-2xl font-bold underline"
+        >
+          Go to Log In Page →
+        </Link>
       </div>
     </div>
   );
-}
+};
+export default Home;

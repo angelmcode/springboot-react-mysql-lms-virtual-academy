@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router';
 
-export default function Header() {
+const Header = () => {
 
   return (
     <div className="min-h-screen bg-black text-white p-10">
@@ -12,3 +12,5 @@ export default function Header() {
     </div>
   );
 }
+
+export default Header;
