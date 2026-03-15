@@ -4,6 +4,13 @@ import { Link } from "react-router";
 import { useForm } from "react-hook-form";
 import axios from "axios";                
 
+interface SignUpFormValues {
+  name: string;
+  email: string;
+  password: string;
+  username: string;
+}
+
 const Helper = ({ children }: { children: string }) => (
   <p className="text-zinc-500 text-sm leading-relaxed mt-1.5 px-0.5">
     {children}
@@ -11,11 +18,10 @@ const Helper = ({ children }: { children: string }) => (
 );
 
 const SignUpPage = () => {
-  // 3. Initialize the form tools
-  const { register, handleSubmit } = useForm();
 
-  // 4. Create the delivery function
-  const onSubmit = async (data: any) => {
+  const { register, handleSubmit } = useForm<SignUpFormValues>();
+
+  const onSubmit = async (data: SignUpFormValues) => {
     try {
       const response = await axios.post("http://localhost:8080/api/auth/register", data);
       console.log("Success!", response.data);
@@ -24,6 +30,7 @@ const SignUpPage = () => {
       console.error("Error sending to Spring Boot", error);
     }
   };
+
   return (
     <div className="min-h-screen bg-black flex flex-col font-sans p-4 md:p-8">
       
@@ -70,11 +77,13 @@ const SignUpPage = () => {
           <form className="flex flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
             <InputGroup 
               label="Name*" 
+              id="name"
               {...register("name", { required: true })} 
             />
 
             <InputGroup 
               label="Email*" 
+              id="email"
               type="email" 
               {...register("email", { required: true })} 
             />
@@ -82,11 +91,12 @@ const SignUpPage = () => {
             <div>
               <InputGroup 
                 label="Password*" 
+                id="password"
                 type="password" 
-                {...register("password", { required: true, minLength: 8 })} 
+                {...register("password", { required: true, minLength: 8, pattern: /^(?=.*[a-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/ })} 
               />
               <Helper>
-                Password should be at least 15 characters OR at least 8 characters 
+                Password should be at least 8 characters 
                 including a number and a lowercase letter.
               </Helper>
             </div>
@@ -94,6 +104,7 @@ const SignUpPage = () => {
             <div>
               <InputGroup 
                 label="Username*" 
+                id="username"
                 {...register("username", { required: true })} 
               />
               <Helper>

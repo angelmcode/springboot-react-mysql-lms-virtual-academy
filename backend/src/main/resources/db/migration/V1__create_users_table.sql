@@ -1,0 +1,20 @@
+CREATE TABLE users (
+                       id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                       email VARCHAR(255) NOT NULL UNIQUE,
+                       password VARCHAR(255) NULL,
+                       username VARCHAR(100) NOT NULL UNIQUE,
+                       first_name VARCHAR(100) NULL,
+                       middle_name VARCHAR(100) NULL,
+                       paternal_last_name VARCHAR(100) NULL,
+                       maternal_last_name VARCHAR(100) NULL,
+                       birth_date DATE NULL,
+                       phone_number VARCHAR(20) NULL UNIQUE,
+                       profile_picture_url TEXT NULL,
+                       payment_service_customer_id VARCHAR(255) NULL,
+                       is_enabled BOOLEAN DEFAULT TRUE NOT NULL,
+                       is_locked BOOLEAN DEFAULT FALSE NOT NULL,
+                       version INT DEFAULT 0 NOT NULL,
+                       deleted_at TIMESTAMP NULL,
+                       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL
+);
