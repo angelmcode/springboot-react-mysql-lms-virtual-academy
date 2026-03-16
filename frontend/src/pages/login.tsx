@@ -1,18 +1,36 @@
+import { useState, useEffect, useRef } from "react";
 import { FcGoogle } from "react-icons/fc";
 import InputGroup from "../components/inputgroup";
-import { Link } from "react-router"; 
+import { Link, useLocation, useNavigate } from "react-router"; 
+import toast from "react-hot-toast";
 
 const LoginPage = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const hasToasted = useRef(false);
+
+  useEffect(() => {
+    const msg = location.state?.message;
+
+    if (msg && !hasToasted.current) {
+      
+      toast.success(msg, { duration: 5000 });
+      hasToasted.current = true;
+   
+      window.history.replaceState({}, document.title);
+    }
+  }, [location]);
+
   return (
-    <div className="min-h-[100dvh] bg-black flex flex-col font-sans p-4">
+    <div className="min-h-[100dvh] bg-black flex flex-col font-sans p-4 [&::-webkit-scrollbar]:hidden [scrollbar-width:none]">
       
       <main className="flex-grow flex flex-col items-center justify-center">
-        
+
         {/* Tightened mb-6 to mb-4 */}
         <h2 className="text-zinc-100 text-xl md:text-2xl font-bold mb-4 text-center tracking-wide">
           SWE Academy
         </h2>
-
+        
         {/* Tightened padding from py-10 to py-8 */}
         <div className="w-full max-w-md bg-zinc-900 border border-zinc-800 rounded-3xl px-8 py-8 flex flex-col shadow-xl">
           
