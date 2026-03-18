@@ -68,4 +68,7 @@ public class User {
 
     @Column(name = "updated_at", nullable = false, updatable = false, insertable = false)
     private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private java.util.List<UserRole> userRoles = new java.util.ArrayList<>();
 }

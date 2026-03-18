@@ -18,24 +18,20 @@ const Home = () => {
 
   return (
     <div style={{ padding: '40px', fontFamily: 'sans-serif' }}>
-      <h1>Virtual Academy</h1>
-      <p>Status: <strong>{message}</strong></p>
-      <div className="bg-purple-600 text-white font-bold    text-3xl   p-10 rounded-2xl shadow-xl text-center mt-10">
-        IT FINALLY WORKS!!!!!!! 🎉
-      </div>
+    
       <div style={{ marginTop: '40px', textAlign: 'center' }}>
-        {/* The link that actually takes you to the signup page */}
         <Link 
           to="/signup" 
           className="text-blue-500 hover:text-blue-400 text-2xl font-bold underline"
         >
-          Go to Sign Up Page →
+          Sign Up →
         </Link>
+       
         <Link 
           to="/login" 
           className="text-blue-500 hover:text-blue-400 text-2xl font-bold underline"
         >
-          Go to Log In Page →
+          Log In Page →
         </Link>
       </div>
     </div>
