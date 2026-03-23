@@ -1,8 +1,11 @@
 import { Routes, Route} from 'react-router';
-import SignUpPage from './pages/signup';
-import Home from './pages/home';
-import Header from './components/header';
-import LoginPage from './pages/login';
+import SignUpPage from './pages/SignUp';
+import Header from './components/Header';
+import LoginPage from './pages/LogIn';
+import RootRouter from './components/RootRouter';
+import TeacherPanel from './pages/TeacherPanel';
+import PortalSelection from './pages/PortalSelection';
+import ProtectedRoute from './components/ProtectedRoute';
 import { Toaster } from 'react-hot-toast';
 
 
@@ -33,11 +36,28 @@ const App = () => {
         }} 
       />
       <Routes>
-        <Route element={<Header />}>
-          <Route path="/" element={<Home />} />
-        </Route>
+        {/* ROUTES WITHOUT HEADER                      */}
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/login" element={<LoginPage />} />
+        
+        <Route path="/portal" element={
+          <ProtectedRoute allowedRoles={["ROLE_TEACHER", "ROLE_ADMIN"]}>
+            <PortalSelection />
+          </ProtectedRoute>
+        } />
+
+        {/* ROUTES WITH HEADER                         */}
+        <Route element={<Header />}>
+          
+          <Route path="/" element={<RootRouter />} />
+
+          <Route path="/teacher" element={
+            <ProtectedRoute allowedRoles={["ROLE_TEACHER", "ROLE_ADMIN"]}>
+              <TeacherPanel />
+            </ProtectedRoute>
+          } />
+
+        </Route>
       </Routes>
     </>
   );

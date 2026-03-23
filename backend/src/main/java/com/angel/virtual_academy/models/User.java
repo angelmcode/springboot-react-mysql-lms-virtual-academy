@@ -30,7 +30,7 @@ public class User {
     private String firstName;
 
     @Column(name = "middle_name", length = 100)
-    private String middle_name;
+    private String middleName;
 
     @Column(name = "paternal_last_name", length = 100)
     private String paternalLastName;

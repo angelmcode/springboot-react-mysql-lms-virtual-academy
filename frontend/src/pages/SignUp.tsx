@@ -1,5 +1,5 @@
 import { FcGoogle } from "react-icons/fc";
-import InputGroup from "../components/inputgroup";
+import InputGroup from "../components/InputGroup";
 import { Link, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import axios from "axios";

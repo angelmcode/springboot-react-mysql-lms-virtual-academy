@@ -38,8 +38,6 @@ VALUES (
            0
        );
 
--- 5. Give the Admin ALL THREE roles immediately
+-- 5. Give the Admin ONLY the Admin role (Permissions will handle the rest)
 INSERT INTO user_roles (user_id, role_id, granted_by) VALUES
-                                                          ((SELECT id FROM users WHERE username = '${admin_username}'), 1, 'SYSTEM_INIT'),
-                                                          ((SELECT id FROM users WHERE username = '${admin_username}'), 2, 'SYSTEM_INIT'),
-                                                          ((SELECT id FROM users WHERE username = '${admin_username}'), 3, 'SYSTEM_INIT');
+    ((SELECT id FROM users WHERE username = '${admin_username}'), 1, 'SYSTEM_INIT');

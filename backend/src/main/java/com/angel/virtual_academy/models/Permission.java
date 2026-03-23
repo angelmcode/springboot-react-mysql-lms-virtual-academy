@@ -4,26 +4,23 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "roles")
+@Table(name = "permissions")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Role {
+public class Permission {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, unique = true, length = 50)
-    private String name; // e.g., "ROLE_TEACHER", "ROLE_STUDENT", "ROLE_ADMIN"
+    private String name; // e.g., "ACCESS_ADMIN_PANEL"
 
     @Column(name = "display_name", nullable = false, length = 100)
-    private String displayName; // e.g., "Teacher", "Student"
+    private String displayName;
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String description;
-
-    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private java.util.List<RolePermission> rolePermissions = new java.util.ArrayList<>();
 }
