@@ -4,7 +4,6 @@ import Header from './components/Header';
 import LoginPage from './pages/LogIn';
 import RootRouter from './components/RootRouter';
 import TeacherPanel from './pages/TeacherPanel';
-import PortalSelection from './pages/PortalSelection';
 import ProtectedRoute from './components/ProtectedRoute';
 import { Toaster } from 'react-hot-toast';
 
@@ -39,12 +38,6 @@ const App = () => {
         {/* ROUTES WITHOUT HEADER                      */}
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/login" element={<LoginPage />} />
-        
-        <Route path="/portal" element={
-          <ProtectedRoute allowedRoles={["ROLE_TEACHER", "ROLE_ADMIN"]}>
-            <PortalSelection />
-          </ProtectedRoute>
-        } />
 
         {/* ROUTES WITH HEADER                         */}
         <Route element={<Header />}>

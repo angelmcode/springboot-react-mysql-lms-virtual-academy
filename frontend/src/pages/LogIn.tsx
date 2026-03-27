@@ -59,7 +59,7 @@ const LoginPage = () => {
 
       // 2. Route based on our new variable
       if (userRoles.includes("ROLE_TEACHER") || userRoles.includes("ROLE_ADMIN")) {
-        navigate("/portal");  
+        navigate("/teacher"); 
       } else {
         navigate("/"); 
       }

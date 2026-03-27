@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
+import api from '../api/AxiosConfig'; 
 
 interface User {
   username: string;
@@ -8,33 +9,46 @@ interface User {
 
 interface AuthContextType {
   currentUser: User | null;
-  isLoading: boolean; // <-- 1. Add this to the type
+  isLoading: boolean;
   login: (userData: User, token: string) => void;
   logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// The "Mini ID Scanner" - Still perfect!
+const isTokenValid = (token: string) => {
+  try {
+    const payloadString = atob(token.split('.')[1]);
+    const payload = JSON.parse(payloadString);
+    return payload.exp * 1000 > Date.now();
+  } catch (error) {
+    return false; 
+  }
+};
+
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-  // 2. Start as 'true' because we haven't checked the "vault" yet
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const savedRoles = localStorage.getItem("user_roles"); 
     const savedName = localStorage.getItem("user_name");
+    const savedToken = localStorage.getItem("jwt_token");
     
-    if (savedRoles && savedName) {
+    if (savedRoles && savedName && savedToken && isTokenValid(savedToken)) {
       try {
         const parsedRoles = JSON.parse(savedRoles);
         setCurrentUser({ username: savedName, roles: parsedRoles });
       } catch (error) {
         console.error("Could not parse roles", error);
-        localStorage.clear(); // Clean up if data is corrupted
+        localStorage.clear(); 
       }
+    } else {
+      setCurrentUser(null);
+      localStorage.clear();
     }
     
-    // 3. CRITICAL: We are done checking localStorage, turn off the loading screen
     setIsLoading(false); 
   }, []);
 
@@ -45,12 +59,23 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem("user_roles", JSON.stringify(userData.roles));
   };
 
-  const logout = () => {
-    setCurrentUser(null);
-    localStorage.clear();
+  // 🚨 NEW LOGOUT LOGIC 🚨
+  const logout = async () => {
+    try {
+      // 1. Hit the "Kill Switch" on the backend to delete the DB token and clear the Cookie
+      await api.post('/api/auth/logout');
+    } catch (error) {
+      console.error("Error communicating logout to the server", error);
+    } finally {
+      // 2. Always wipe the frontend vault, even if the server is offline
+      setCurrentUser(null);
+      localStorage.clear();
+      
+      // 3. Force the browser back to the login page to clear memory
+      window.location.href = '/login';
+    }
   };
 
-  // 4. Pass isLoading into the Provider
   return (
     <AuthContext.Provider value={{ currentUser, login, logout, isLoading }}>
       {children}
