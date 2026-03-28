@@ -16,7 +16,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// The "Mini ID Scanner" - Still perfect!
+// The "Mini ID Scanner"
 const isTokenValid = (token: string) => {
   try {
     const payloadString = atob(token.split('.')[1]);
@@ -32,24 +32,56 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const savedRoles = localStorage.getItem("user_roles"); 
-    const savedName = localStorage.getItem("user_name");
-    const savedToken = localStorage.getItem("jwt_token");
-    
-    if (savedRoles && savedName && savedToken && isTokenValid(savedToken)) {
-      try {
-        const parsedRoles = JSON.parse(savedRoles);
-        setCurrentUser({ username: savedName, roles: parsedRoles });
-      } catch (error) {
-        console.error("Could not parse roles", error);
-        localStorage.clear(); 
+    const initializeAuth = async () => {
+      const savedRoles = localStorage.getItem("user_roles"); 
+      const savedName = localStorage.getItem("user_name");
+      const savedToken = localStorage.getItem("jwt_token"); // ✅ Back to a safe 'const'
+      
+      if (savedRoles && savedName && savedToken) {
+        
+        // 1. If the token is expired, try to refresh it
+        if (!isTokenValid(savedToken)) {
+          try {
+            console.log("Access token expired on load. Attempting background refresh...");
+            const response = await api.post('/api/auth/refresh');
+            
+            // ✅ Safely grab the new token into its own constant and store it
+            const newAccessToken = response.data.accessToken as string;
+            
+            if (newAccessToken) {
+              localStorage.setItem("jwt_token", newAccessToken); 
+            } else {
+              throw new Error("No token returned from refresh endpoint.");
+            }
+
+          } catch (error) {
+            console.error("Refresh token expired or invalid. User must log in again.");
+            setCurrentUser(null);
+            localStorage.clear();
+            setIsLoading(false);
+            return; 
+          }
+        }
+
+        // 2. Set the user state (The token is safely managed in localStorage now)
+        try {
+          const parsedRoles = JSON.parse(savedRoles);
+          setCurrentUser({ username: savedName, roles: parsedRoles });
+        } catch (error) {
+          console.error("Could not parse roles", error);
+          localStorage.clear(); 
+          setCurrentUser(null);
+        }
+
+      } else {
+        setCurrentUser(null);
+        localStorage.clear();
       }
-    } else {
-      setCurrentUser(null);
-      localStorage.clear();
-    }
-    
-    setIsLoading(false); 
+      
+      setIsLoading(false); 
+    };
+
+    initializeAuth();
   }, []);
 
   const login = (userData: User, token: string) => {
@@ -59,19 +91,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem("user_roles", JSON.stringify(userData.roles));
   };
 
-  // 🚨 NEW LOGOUT LOGIC 🚨
   const logout = async () => {
     try {
-      // 1. Hit the "Kill Switch" on the backend to delete the DB token and clear the Cookie
       await api.post('/api/auth/logout');
     } catch (error) {
       console.error("Error communicating logout to the server", error);
     } finally {
-      // 2. Always wipe the frontend vault, even if the server is offline
       setCurrentUser(null);
       localStorage.clear();
-      
-      // 3. Force the browser back to the login page to clear memory
       window.location.href = '/login';
     }
   };
