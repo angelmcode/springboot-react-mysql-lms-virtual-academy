@@ -1,5 +1,7 @@
 import { Outlet, Link } from 'react-router';
 import { FiSun, FiChevronDown, FiShoppingCart } from "react-icons/fi";
+import HasPermission from './HasPermission';
+import toast from 'react-hot-toast'; // ✅ Import your toast library
 
 const Header = () => {
   return (
@@ -12,7 +14,16 @@ const Header = () => {
         <Link to="/" className="text-xl font-bold tracking-tight hover:opacity-80 transition-opacity">
           SWE Academy
         </Link>
-        
+
+        <HasPermission permission="ACCESS_ADMIN_PANEL">
+          <button 
+            onClick={() => toast.success('Admin powers activated! 🚀')}
+            className="px-4 py-1.5 bg-red-600/20 text-red-500 border border-red-900 hover:bg-red-600 hover:text-white text-[13px] font-bold rounded-full transition-all cursor-pointer"
+          >
+            Test Admin Action
+          </button>
+        </HasPermission>
+
         {/* Right Side: Navigation Group */}
         <div className="flex items-center gap-3 md:gap-5">
           

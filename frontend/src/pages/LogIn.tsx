@@ -38,7 +38,7 @@ const LoginPage = () => {
     formState: { errors, isSubmitting } 
   } = useForm<LoginFormData>();
 
-  // The function that talks to Spring Boot using Axios
+  /// The function that talks to Spring Boot using Axios
   const onSubmit = async (data: LoginFormData) => {
     const loginId = toast.loading("Logging in...");
 
@@ -49,22 +49,27 @@ const LoginPage = () => {
       toast.success(response.data.message); 
       console.log("Success Data:", response.data);
       
-      const userRoles = response.data.roles;
+      // 1. ✅ NEW: Destructure ALL the data from the backend response
+      const { username, roles, permissions, token } = response.data;
       
-      // 1. Save to the vault using our new variable
+      // 2. ✅ NEW: Pass the permissions into the context
       login(
-        { username: response.data.username, roles: userRoles }, 
-        response.data.token
+        { username, roles, permissions }, 
+        token
       );
 
-      // 2. Route based on our new variable
-      if (userRoles.includes("ROLE_TEACHER") || userRoles.includes("ROLE_ADMIN")) {
+      // 3. ✅ NEW: Route based on permissions instead of roles
+      if (permissions?.includes("ACCESS_TEACHER_PANEL")) {
         navigate("/teacher"); 
+      } else if (permissions?.includes("ACCESS_ADMIN_PANEL")) {
+        // You can add your admin route here later!
+        navigate("/admin"); 
       } else {
         navigate("/"); 
       }
 
     } catch (error) {
+      // ... (keep all your existing catch logic exactly the same)
       toast.dismiss(loginId);
       
       if (axios.isAxiosError(error) && error.response?.data) {

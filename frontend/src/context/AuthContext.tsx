@@ -4,7 +4,8 @@ import api from '../api/AxiosConfig';
 
 interface User {
   username: string;
-  roles: string[]; 
+  roles: string[];
+  permissions: string[]; // ✅ Awesome, you added this!
 }
 
 interface AuthContextType {
@@ -35,9 +36,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const initializeAuth = async () => {
       const savedRoles = localStorage.getItem("user_roles"); 
       const savedName = localStorage.getItem("user_name");
-      const savedToken = localStorage.getItem("jwt_token"); // ✅ Back to a safe 'const'
+      const savedToken = localStorage.getItem("jwt_token"); 
+      const savedPermissions = localStorage.getItem("user_permissions"); // ✅ NEW: Grab permissions
       
-      if (savedRoles && savedName && savedToken) {
+      // ✅ NEW: Check that savedPermissions also exists
+      if (savedRoles && savedName && savedToken && savedPermissions) {
         
         // 1. If the token is expired, try to refresh it
         if (!isTokenValid(savedToken)) {
@@ -45,11 +48,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             console.log("Access token expired on load. Attempting background refresh...");
             const response = await api.post('/api/auth/refresh');
             
-            // ✅ Safely grab the new token into its own constant and store it
             const newAccessToken = response.data.accessToken as string;
             
             if (newAccessToken) {
               localStorage.setItem("jwt_token", newAccessToken); 
+              
+              // Note: If you update your backend /refresh to return fresh roles/permissions,
+              // you would update localStorage and your parsed variables here!
+              
             } else {
               throw new Error("No token returned from refresh endpoint.");
             }
@@ -63,12 +69,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           }
         }
 
-        // 2. Set the user state (The token is safely managed in localStorage now)
+        // 2. Set the user state
         try {
           const parsedRoles = JSON.parse(savedRoles);
-          setCurrentUser({ username: savedName, roles: parsedRoles });
+          const parsedPermissions = JSON.parse(savedPermissions); // ✅ NEW: Parse permissions
+          
+          // ✅ NEW: Include permissions to satisfy TypeScript and React State
+          setCurrentUser({ 
+            username: savedName, 
+            roles: parsedRoles, 
+            permissions: parsedPermissions 
+          }); 
         } catch (error) {
-          console.error("Could not parse roles", error);
+          console.error("Could not parse roles or permissions", error);
           localStorage.clear(); 
           setCurrentUser(null);
         }
@@ -89,6 +102,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem("jwt_token", token);
     localStorage.setItem("user_name", userData.username);
     localStorage.setItem("user_roles", JSON.stringify(userData.roles));
+    localStorage.setItem("user_permissions", JSON.stringify(userData.permissions)); // ✅ NEW: Save permissions on login
   };
 
   const logout = async () => {

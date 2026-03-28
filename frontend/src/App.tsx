@@ -7,7 +7,6 @@ import TeacherPanel from './pages/TeacherPanel';
 import ProtectedRoute from './components/ProtectedRoute';
 import { Toaster } from 'react-hot-toast';
 
-
 const TOAST_BASE = "!bg-zinc-900 !text-zinc-100 !border-solid !border !border-[1px] !rounded-2xl !px-4 !py-3 !shadow-2xl";
 
 const App = () => {
@@ -44,8 +43,9 @@ const App = () => {
           
           <Route path="/" element={<RootRouter />} />
 
+          {/* ✅ NEW: Protected by exact Permission instead of Role */}
           <Route path="/teacher" element={
-            <ProtectedRoute allowedRoles={["ROLE_TEACHER", "ROLE_ADMIN"]}>
+            <ProtectedRoute requiredPermission="ACCESS_TEACHER_PANEL">
               <TeacherPanel />
             </ProtectedRoute>
           } />

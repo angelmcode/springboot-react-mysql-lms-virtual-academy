@@ -15,4 +15,5 @@ public class LoginResponse {
     private String token; // This is the VIP Pass!
     private String username;
     private List<String> roles;
+    private List<String> permissions;
 }

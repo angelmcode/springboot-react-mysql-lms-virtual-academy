@@ -10,18 +10,18 @@ const RootRouter = () => {
     return <div className="bg-black min-h-screen" />; 
   }
 
-  // 2. Now that we KNOW isLoading is false, we can trust currentUser
+  // 2. If no user, show the public landing page
   if (!currentUser) {
     return <Home />;
   }
 
-  // 3. Show student dashboard if they have the role
-  if (currentUser.roles.includes("ROLE_STUDENT")) {
+  // 3. ✅ NEW: Show student dashboard if they have permission to see it
+  if (currentUser.permissions?.includes("ACCESS_STUDENT_PANEL")) {
     return <StudentHome />;
   }
 
-  // 4. Fallback: If they are an Admin/Teacher but NOT a student,
-  // they see the Guest Home (unless you want to redirect them to /portal here)
+  // 4. Fallback: If they are logged in but don't have student access 
+  // (e.g., they are just a teacher/admin), show the default Home.
   return <Home />;
 };
 
