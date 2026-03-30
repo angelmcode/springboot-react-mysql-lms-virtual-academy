@@ -101,24 +101,22 @@ const LoginPage = () => {
   }, [location]);
 
   return (
-    <div className="min-h-[100dvh] bg-black flex flex-col font-sans p-4 [&::-webkit-scrollbar]:hidden [scrollbar-width:none]">
+    <div className="min-h-[100dvh] bg-zinc-50 dark:bg-black flex flex-col font-sans p-4 [&::-webkit-scrollbar]:hidden [scrollbar-width:none]">
       
       <main className="flex-grow flex flex-col items-center justify-center">
 
-        {/* Tightened mb-6 to mb-4 */}
-        <h2 className="text-zinc-100 text-xl md:text-2xl font-bold mb-4 text-center tracking-wide">
+        {/* 🎨 CSS ONLY: Text color handles light/dark */}
+        <h2 className="text-zinc-900 dark:text-zinc-100 text-xl md:text-2xl font-bold mb-4 text-center tracking-wide">
           SWE Academy
         </h2>
         
-        {/* Tightened padding from py-10 to py-8 */}
-        <div className="w-full max-w-md bg-zinc-900 border border-zinc-800 rounded-3xl px-8 py-8 flex flex-col shadow-xl">
+        {/* 🎨 CSS ONLY: Card background and border handle light/dark */}
+        <div className="w-full max-w-md bg-white border-zinc-200 dark:bg-zinc-900 border dark:border-zinc-800 rounded-3xl px-8 py-8 flex flex-col shadow-xl">
           
-          {/* Tightened mb-8 to mb-6 */}
-          <h1 className="text-2xl md:text-3xl font-semibold text-zinc-100 text-center mb-6">
+          <h1 className="text-2xl md:text-3xl font-semibold text-zinc-900 dark:text-zinc-100 text-center mb-6">
             Log In
           </h1>
 
-          {/* Tightened gap-6 to gap-5 to pull the inputs slightly closer together */}
           <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
             
             <div>
@@ -134,47 +132,50 @@ const LoginPage = () => {
             
             <div className="space-y-1.5">
               <div className="flex justify-between items-center">
-                <label htmlFor="password" className="block text-zinc-100 font-medium text-base">
+                <label htmlFor="password" className="block text-zinc-900 dark:text-zinc-100 font-medium text-base">
                   Password
                 </label>
-                <a href="/forgot-password" className="text-blue-500 hover:text-blue-400 text-sm font-medium transition-colors">
+                <a href="/forgot-password" className="text-blue-600 hover:text-blue-700 dark:text-blue-500 dark:hover:text-blue-400 text-sm font-medium transition-colors">
                   Forgot password?
                 </a>
               </div>
               
+              {/* 🎨 CSS ONLY: Input background, text, border, and placeholder handle light/dark */}
               <input
                 type="password"
                 id="password"
                 {...register("password", { required: "Password is required" })}
-                className={`w-full bg-zinc-950 border rounded-lg px-4 py-2.5 text-white placeholder:text-zinc-600 focus:outline-none focus:ring-2 transition-colors ${
+                className={`w-full bg-white dark:bg-zinc-950 border rounded-lg px-4 py-2.5 text-zinc-900 dark:text-white placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:ring-2 transition-colors ${
                   errors.password 
                     ? "border-red-500 focus:ring-red-500 focus:border-red-500" 
-                    : "border-zinc-700 focus:ring-blue-600 focus:border-blue-600"
+                    : "border-zinc-300 dark:border-zinc-700 focus:ring-blue-600 dark:focus:ring-blue-600 focus:border-blue-600 dark:focus:border-blue-600"
                 }`}
               />
               <ErrorText message={errors.password?.message} />
             </div>
 
+            {/* 🎨 CSS ONLY: Submit button colors adjusted for light/dark */}
             <button 
               type="submit"
               disabled={isSubmitting}
-              className={`w-full border rounded-xl px-6 py-3 text-zinc-100 text-lg font-medium transition-colors mt-2 
-                ${isSubmitting ? "bg-blue-800 border-blue-800 cursor-not-allowed" : "bg-blue-700 border-blue-600 hover:bg-blue-600"}`}
+              className={`w-full border rounded-xl px-6 py-3 text-white dark:text-zinc-100 text-lg font-medium transition-colors mt-2 
+                ${isSubmitting ? "bg-blue-400 border-blue-400 dark:bg-blue-800 dark:border-blue-800 cursor-not-allowed" : "bg-blue-600 border-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:border-blue-600 dark:hover:bg-blue-600"}`}
             >
               {isSubmitting ? "Logging in..." : "Log In"}
             </button>
           </form>
 
-          {/* Tightened margins on the divider */}
+          {/* 🎨 CSS ONLY: Divider lines adjusted for light/dark */}
           <div className="relative flex items-center my-5">
-            <div className="flex-grow border-t border-dashed border-zinc-700/60"></div>
+            <div className="flex-grow border-t border-dashed border-zinc-300 dark:border-zinc-700/60"></div>
             <span className="flex-shrink mx-4 text-zinc-500 font-medium text-sm uppercase tracking-wider">or</span>
-            <div className="flex-grow border-t border-dashed border-zinc-700/60"></div>
+            <div className="flex-grow border-t border-dashed border-zinc-300 dark:border-zinc-700/60"></div>
           </div>
 
+          {/* 🎨 CSS ONLY: Google button colors adjusted for light/dark */}
           <button 
             type="button"
-            className="w-full flex items-center justify-center bg-purple-900/20 border border-purple-500/30 rounded-xl px-6 py-3 text-zinc-100 hover:bg-purple-900/40 transition-colors"
+            className="w-full flex items-center justify-center bg-purple-50 border border-purple-200 text-purple-900 hover:bg-purple-100 dark:bg-purple-900/20 dark:border-purple-500/30 rounded-xl px-6 py-3 dark:text-zinc-100 dark:hover:bg-purple-900/40 transition-colors"
           >
             <FcGoogle className="h-5 w-5 mr-3" />
             <span className="font-medium text-lg">Continue with Google</span>
@@ -182,12 +183,12 @@ const LoginPage = () => {
 
         </div>
 
-        {/* Tightened mt-8 to mt-6 */}
-        <div className="text-zinc-400 text-sm md:text-base mt-6 text-center">
+        {/* 🎨 CSS ONLY: Footer text colors adjusted for light/dark */}
+        <div className="text-zinc-600 dark:text-zinc-400 text-sm md:text-base mt-6 text-center">
           New to SWE Academy?{' '}
           <Link 
             to="/signup" 
-            className="text-blue-500 hover:text-blue-400 transition-colors font-medium"
+            className="text-blue-600 hover:text-blue-700 dark:text-blue-500 dark:hover:text-blue-400 transition-colors font-medium"
           >
             Create an Account
           </Link>

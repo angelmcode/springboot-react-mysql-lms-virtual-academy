@@ -12,14 +12,20 @@ const StudentHome = () => {
   }, []);
 
   return (
-    <div className="text-white p-8">
+    <div className="p-8 text-zinc-900 dark:text-white">
+      
       <h1 className="text-3xl font-bold mb-4">Student Dashboard</h1>
-      <div>
-      This is the Student Home!
+      
+      <div className="mb-6">
+        This is the Student Home!
       </div>
-      <div className="p-4 bg-zinc-900 border border-zinc-700 rounded-xl">
-        <p className="text-green-400 font-mono">{message}</p>
+      
+      {/* 2. Made the box light gray by default, and dark zinc in dark mode */}
+      <div className="p-4 bg-zinc-100 border border-zinc-300 dark:bg-zinc-900 dark:border-zinc-700 rounded-xl">
+        {/* 3. Tweaked the green text so it's readable on both backgrounds! */}
+        <p className="text-green-600 dark:text-green-400 font-mono">{message}</p>
       </div>
+
     </div>
   );
 }
