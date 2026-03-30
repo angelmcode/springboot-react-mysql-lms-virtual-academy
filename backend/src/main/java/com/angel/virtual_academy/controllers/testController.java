@@ -18,14 +18,14 @@ public class testController {
 
     // 2. STUDENT DOOR: Only tokens with ROLE_STUDENT get in
     @GetMapping("/student")
-    @PreAuthorize("hasAuthority('ROLE_STUDENT')")
+    @PreAuthorize("hasAuthority('ACCESS_STUDENT_PANEL')")
     public ResponseEntity<String> studentAccess() {
         return ResponseEntity.ok("Backend Success! The vault confirmed you are a STUDENT. 🎓");
     }
 
     // 3. TEACHER/ADMIN DOOR: Only TEACHER or ADMIN tokens get in
     @GetMapping("/teacher")
-    @PreAuthorize("hasAnyAuthority('ROLE_TEACHER', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ACCESS_TEACHER_PANEL')")
     public ResponseEntity<String> teacherAccess() {
         return ResponseEntity.ok("Backend Success! The vault confirmed you are a TEACHER/ADMIN. 👨‍🏫");
     }
